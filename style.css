@@ -1,1 +1,231 @@
-/* Add styles here */
+@layer base, layout, components, utilities;
+
+@layer base {
+  :root {
+    /* OKLCH Color Palette */
+    --bg-primary: oklch(98% 0.01 200);
+    --bg-secondary: oklch(95% 0.02 200);
+    --text-primary: oklch(20% 0.02 200);
+    --text-muted: oklch(50% 0.02 200);
+    --accent: oklch(65% 0.15 250);
+    --accent-hover: oklch(60% 0.18 250);
+    --glass-bg: oklch(100% 0 0 / 70%);
+    --glass-border: oklch(100% 0 0 / 20%);
+    --shadow-color: oklch(0% 0 0 / 10%);
+    
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --border-radius-lg: 1.5rem;
+    --border-radius-md: 0.75rem;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: var(--font-family);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    height: 100vh;
+    overflow: hidden;
+    line-height: 1.5;
+  }
+
+  .noise-bg {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-size: 150px;
+    background-repeat: repeat;
+    opacity: 0.03;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+@layer layout {
+  .app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .sidebar {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    background: var(--glass-bg);
+    box-shadow: 0 10px 40px var(--shadow-color);
+    transition: var(--transition);
+    flex-shrink: 0;
+  }
+
+  .editor-area {
+    flex-grow: 1;
+    border-radius: var(--border-radius-lg);
+    background: white;
+    box-shadow: 0 10px 40px var(--shadow-color);
+    overflow: hidden;
+    position: relative;
+    container-type: inline-size;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 80px;
+      padding: 0.5rem;
+    }
+    .logo, .search-container, .note-content-preview {
+      display: none;
+    }
+  }
+}
+
+@layer components {
+  /* Sidebar Components */
+  .sidebar-header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: var(--accent);
+  }
+
+  .icon-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: var(--transition);
+  }
+
+  .icon-btn:hover {
+    transform: scale(1.1);
+    background: var(--accent-hover);
+    box-shadow: 0 6px 20px oklch(65% 0.15 250 / 40%);
+  }
+
+  .search-container {
+    margin: 0 1rem 1.5rem;
+    position: relative;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    color: var(--text-muted);
+  }
+
+  #search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    border-radius: var(--border-radius-md);
+    border: 1px solid oklch(0% 0 0 / 5%);
+    background: oklch(0% 0 0 / 3%);
+    outline: none;
+    transition: var(--transition);
+  }
+
+  #search-input:focus {
+    background: white;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px oklch(65% 0.15 250 / 10%);
+  }
+
+  /* Note List */
+  .note-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0 0.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .note-item {
+    padding: 1rem;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid transparent;
+    user-select: none;
+  }
+
+  .note-item:hover {
+    background: oklch(0% 0 0 / 5%);
+  }
+
+  .note-item.active {
+    background: white;
+    border-color: var(--glass-border);
+    box-shadow: 0 4px 12px var(--shadow-color);
+  }
+
+  .note-title-preview {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .note-content-preview {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Editor (Custom Element placeholder styles) */
+  note-editor {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

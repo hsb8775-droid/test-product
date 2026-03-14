@@ -1,14 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina Notes | Minimalist Workspace</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+<body class="noise-bg">
+  <div id="app" class="app-container">
+    <aside class="sidebar glass">
+      <header class="sidebar-header">
+        <h1 class="logo">Lumina</h1>
+        <button id="new-note-btn" class="icon-btn" title="New Note">
+          <i data-lucide="plus"></i>
+        </button>
+      </header>
+      
+      <div class="search-container">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" id="search-input" placeholder="Search notes..." aria-label="Search notes">
+      </div>
+
+      <nav id="note-list" class="note-list">
+        <!-- Note list items will be injected here -->
+      </nav>
+    </aside>
+
+    <main class="editor-area">
+      <note-editor id="main-editor"></note-editor>
+    </main>
+  </div>
+
+  <script type="module" src="main.js"></script>
+  <script>
+    // Initialize icons
+    window.addEventListener('load', () => lucide.createIcons());
+  </script>
 </body>
 </html>
