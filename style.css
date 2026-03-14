@@ -19,6 +19,18 @@
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  :root.dark {
+    --bg-primary: oklch(20% 0.02 200);
+    --bg-secondary: oklch(15% 0.02 200);
+    --text-primary: oklch(95% 0.01 200);
+    --text-muted: oklch(70% 0.01 200);
+    --accent: oklch(75% 0.15 250);
+    --accent-hover: oklch(80% 0.18 250);
+    --glass-bg: oklch(20% 0.02 200 / 80%);
+    --glass-border: oklch(100% 0 0 / 10%);
+    --shadow-color: oklch(0% 0 0 / 40%);
+  }
+
   * {
     box-sizing: border-box;
     margin: 0;
@@ -71,7 +83,7 @@
   .editor-area {
     flex-grow: 1;
     border-radius: var(--border-radius-lg);
-    background: white;
+    background: var(--bg-secondary);
     box-shadow: 0 10px 40px var(--shadow-color);
     overflow: hidden;
     position: relative;
@@ -98,6 +110,12 @@
     align-items: center;
   }
 
+  .header-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
   .logo {
     font-size: 1.5rem;
     font-weight: 800;
@@ -105,10 +123,7 @@
     color: var(--accent);
   }
 
-  .icon-btn {
-    background: var(--accent);
-    color: white;
-    border: none;
+  .icon-btn, .icon-btn-outline {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -116,14 +131,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px var(--shadow-color);
     transition: var(--transition);
+    border: none;
+  }
+
+  .icon-btn {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 12px var(--shadow-color);
+  }
+
+  .icon-btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
   }
 
   .icon-btn:hover {
     transform: scale(1.1);
     background: var(--accent-hover);
     box-shadow: 0 6px 20px oklch(65% 0.15 250 / 40%);
+  }
+
+  .icon-btn-outline:hover {
+    background: oklch(65% 0.15 250 / 10%);
+    transform: rotate(15deg);
   }
 
   .search-container {

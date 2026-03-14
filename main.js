@@ -12,11 +12,29 @@ class Store extends EventTarget {
     ];
     this.activeNoteId = this.notes[0]?.id || null;
     this.searchQuery = '';
+    this.isDarkMode = localStorage.getItem('lumina-theme') === 'dark';
+    this.applyTheme();
   }
 
   save() {
     localStorage.setItem('lumina-notes', JSON.stringify(this.notes));
+    localStorage.setItem('lumina-theme', this.isDarkMode ? 'dark' : 'light');
     this.dispatchEvent(new CustomEvent('change'));
+  }
+
+  applyTheme() {
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+      themeBtn.innerHTML = this.isDarkMode ? '<i data-lucide="moon"></i>' : '<i data-lucide="sun"></i>';
+      if (window.lucide) window.lucide.createIcons();
+    }
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    this.applyTheme();
+    this.save();
   }
 
   get filteredNotes() {
@@ -143,6 +161,7 @@ customElements.define('note-editor', NoteEditor);
 
 const noteList = document.getElementById('note-list');
 const newNoteBtn = document.getElementById('new-note-btn');
+const themeToggleBtn = document.getElementById('theme-toggle');
 const searchInput = document.getElementById('search-input');
 
 function renderNoteList() {
@@ -166,6 +185,10 @@ newNoteBtn.addEventListener('click', () => {
   store.addNote();
 });
 
+themeToggleBtn.addEventListener('click', () => {
+  store.toggleDarkMode();
+});
+
 searchInput.addEventListener('input', (e) => {
   store.setSearch(e.target.value);
 });
@@ -173,4 +196,5 @@ searchInput.addEventListener('input', (e) => {
 store.addEventListener('change', renderNoteList);
 
 // Initial render
+store.applyTheme();
 renderNoteList();
