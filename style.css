@@ -2,6 +2,17 @@
 
 @layer base {
   :root {
+    /* Fallbacks for OKLCH */
+    --bg-primary-fallback: #f8f9fa;
+    --bg-secondary-fallback: #f1f3f5;
+    --text-primary-fallback: #212529;
+    --text-muted-fallback: #868e96;
+    --accent-fallback: #339af0;
+    --accent-hover-fallback: #228be6;
+    --glass-bg-fallback: rgba(255, 255, 255, 0.7);
+    --glass-border-fallback: rgba(0, 0, 0, 0.1);
+    --shadow-color-fallback: rgba(0, 0, 0, 0.1);
+
     /* OKLCH Color Palette */
     --bg-primary: oklch(98% 0.01 200);
     --bg-secondary: oklch(95% 0.02 200);
@@ -20,6 +31,17 @@
   }
 
   :root.dark {
+    /* Dark Fallbacks */
+    --bg-primary-fallback: #1a1b1e;
+    --bg-secondary-fallback: #25262b;
+    --text-primary-fallback: #f8f9fa;
+    --text-muted-fallback: #adb5bd;
+    --accent-fallback: #4dabf7;
+    --accent-hover-fallback: #74c0fc;
+    --glass-bg-fallback: rgba(26, 27, 30, 0.8);
+    --glass-border-fallback: rgba(255, 255, 255, 0.1);
+    --shadow-color-fallback: rgba(0, 0, 0, 0.4);
+
     --bg-primary: oklch(20% 0.02 200);
     --bg-secondary: oklch(15% 0.02 200);
     --text-primary: oklch(95% 0.01 200);
@@ -39,14 +61,18 @@
 
   body {
     font-family: var(--font-family);
+    color: var(--text-primary-fallback);
     color: var(--text-primary);
+    background-color: var(--bg-primary-fallback);
     background-color: var(--bg-primary);
     height: 100vh;
     overflow: hidden;
     line-height: 1.5;
+    position: relative;
   }
 
-  .noise-bg {
+  body::before {
+    content: "";
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     background-size: 150px;
     background-repeat: repeat;
@@ -72,9 +98,12 @@
     display: flex;
     flex-direction: column;
     border-radius: var(--border-radius-lg);
+    border: 1px solid var(--glass-border-fallback);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(20px);
+    background: var(--glass-bg-fallback);
     background: var(--glass-bg);
+    box-shadow: 0 10px 40px var(--shadow-color-fallback);
     box-shadow: 0 10px 40px var(--shadow-color);
     transition: var(--transition);
     flex-shrink: 0;
@@ -83,7 +112,9 @@
   .editor-area {
     flex-grow: 1;
     border-radius: var(--border-radius-lg);
+    background: var(--bg-secondary-fallback);
     background: var(--bg-secondary);
+    box-shadow: 0 10px 40px var(--shadow-color-fallback);
     box-shadow: 0 10px 40px var(--shadow-color);
     overflow: hidden;
     position: relative;
@@ -120,6 +151,7 @@
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: -0.05em;
+    color: var(--accent-fallback);
     color: var(--accent);
   }
 
@@ -136,25 +168,30 @@
   }
 
   .icon-btn {
+    background: var(--accent-fallback);
     background: var(--accent);
     color: white;
+    box-shadow: 0 4px 12px var(--shadow-color-fallback);
     box-shadow: 0 4px 12px var(--shadow-color);
   }
 
   .icon-btn-outline {
     background: transparent;
+    border: 1.5px solid var(--accent-fallback);
     border: 1.5px solid var(--accent);
+    color: var(--accent-fallback);
     color: var(--accent);
   }
 
   .icon-btn:hover {
     transform: scale(1.1);
+    background: var(--accent-hover-fallback);
     background: var(--accent-hover);
-    box-shadow: 0 6px 20px oklch(65% 0.15 250 / 40%);
+    box-shadow: 0 6px 20px var(--accent-fallback);
   }
 
   .icon-btn-outline:hover {
-    background: oklch(65% 0.15 250 / 10%);
+    background: rgba(100, 100, 255, 0.1);
     transform: rotate(15deg);
   }
 
@@ -169,6 +206,7 @@
     top: 50%;
     transform: translateY(-50%);
     width: 18px;
+    color: var(--text-muted-fallback);
     color: var(--text-muted);
   }
 
@@ -176,16 +214,19 @@
     width: 100%;
     padding: 0.75rem 1rem 0.75rem 2.75rem;
     border-radius: var(--border-radius-md);
-    border: 1px solid oklch(0% 0 0 / 5%);
-    background: oklch(0% 0 0 / 3%);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--text-primary-fallback);
+    color: var(--text-primary);
     outline: none;
     transition: var(--transition);
   }
 
   #search-input:focus {
     background: white;
+    border-color: var(--accent-fallback);
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px oklch(65% 0.15 250 / 10%);
+    box-shadow: 0 0 0 3px rgba(100, 100, 255, 0.1);
   }
 
   /* Note List */
@@ -208,12 +249,14 @@
   }
 
   .note-item:hover {
-    background: oklch(0% 0 0 / 5%);
+    background: rgba(0, 0, 0, 0.05);
   }
 
   .note-item.active {
     background: white;
+    border-color: var(--glass-border-fallback);
     border-color: var(--glass-border);
+    box-shadow: 0 4px 12px var(--shadow-color-fallback);
     box-shadow: 0 4px 12px var(--shadow-color);
   }
 
@@ -223,10 +266,13 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--text-primary-fallback);
+    color: var(--text-primary);
   }
 
   .note-content-preview {
     font-size: 0.85rem;
+    color: var(--text-muted-fallback);
     color: var(--text-muted);
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -244,8 +290,10 @@
 
 @layer utilities {
   .glass {
+    background: var(--glass-bg-fallback);
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border-fallback);
     border: 1px solid var(--glass-border);
   }
 }
@@ -255,6 +303,7 @@
   width: 6px;
 }
 ::-webkit-scrollbar-thumb {
+  background: var(--text-muted-fallback);
   background: var(--text-muted);
   border-radius: 10px;
 }

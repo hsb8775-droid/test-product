@@ -15,6 +15,7 @@ A sophisticated, framework-less web application for managing personal notes. Bui
     *   **Create/Edit Notes:** Full-screen editor for focused writing.
     *   **Search & Filter:** Real-time search by title or content.
     *   **Dark Mode:** Built-in theme toggle with persistent user preference.
+    *   **Robustness:** OKLCH fallbacks, JS error handling, and null-safe DOM interactions.
     *   **Persistence:** Automatic saving to browser LocalStorage.
     *   **Categories/Colors:** Ability to tag notes with distinct colors.
     *   **A11Y:** Semantic HTML, keyboard navigation, and high contrast support.
